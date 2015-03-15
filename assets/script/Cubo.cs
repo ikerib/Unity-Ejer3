@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Cubo : MonoBehaviour
 {
@@ -7,16 +8,23 @@ public class Cubo : MonoBehaviour
 		// Variables publicas para el acceso desde el diseñador
 		public float velocidad;
 		public DebugMessages dLog;
-		public int vidas;
+		public GameObject PrefBalaEnemigo;
+		public HudController HudManager; 
+			
 
 		// Variables privadas del script
 		Transform myTransform;
 		
+		
 		private bool gameOver; // Constrola si hay que finalizar el juego o no
 		private int sentido = -1;
+		private int VidasPersonaje = gameObject.GetComponent<CameraController> ().vidasPersonaje;
+		private int VidasEnemigo = gameObject.GetComponent<CameraController> ().vidaEnemigo;
+		
 		// Al tener paredes fijas, no necesitamos variables publicas. Seran fijas.
 		private static Vector3 maxLeft = new Vector3 (6f, 0.5f, 0);
 		private static Vector3 maxRight = new Vector3 (-6f, 0.5f, 0);
+		private bool isShooting = false;
 		private Vector3 dest = new Vector3 (0, 0, 0);
 		// Use this for initialization
 		void Start ()
@@ -29,6 +37,7 @@ public class Cubo : MonoBehaviour
 						vidas = 3;
 				gameOver = false;
 				dest = maxLeft;
+				//VidasPersonaje.text = "Vidas: " + vidas.ToString ();
 
 		}
 	
@@ -46,30 +55,47 @@ public class Cubo : MonoBehaviour
 			
 				//myTransform.position = Vector3.Lerp(transform.position, dest, Time.deltaTime * velocidad); 
 				myTransform.position = Vector3.MoveTowards (transform.position, dest, Time.deltaTime * velocidad); 
+				RaycastHit hit;
+				Vector3 fin = new Vector3(this.transform.position.x,3.5f,9f);
+				Debug.DrawLine(this.transform.position, fin, Color.red);
+
+				if ( Physics.Raycast( this.transform.position, fin, out hit ) )
+				{ 
+					if ( hit.collider.tag == "MainCamera" ) 
+					{
+						if (isShooting == false) 
+						{
+							isShooting=true;
+							Vector3 desti = new Vector3(0, 0.08f, 0.8f);
+							GameObject BalaEnemigo = (GameObject)GameObject.Instantiate (PrefBalaEnemigo, desti, Quaternion.identity);  
+							BalaEnemigo.transform.LookAt(Camera.main.camera.transform.position);
+							BalaEnemigo.GetComponent<BalaEnemigo>().StartMoving();
+						}					
+					}					
+				}	
 		
 		}
 
 		// Función para restar vidas al personaje
 		public void DisminuirVidas ()
 		{
-				vidas -= 1;
-				if (vidas < 1) {
-						// terminamos el juego
-						audio.Play ();
-						gameOver = true;
-						Camera.main.audio.Stop ();						
-				} 
+			vidas -= 1;
+			if (vidas < 1) {
+				// terminamos el juego
+				audio.Play ();
+				gameOver = true;
+				Camera.main.audio.Stop ();		
+			} 
+
 		}
 
-		
-		void OnGUI ()
+		public void toogleShooting()
 		{
-				// Mostramos Vidas
-				GUI.Label (new Rect (10, 10, 200, 100), vidas.ToString ());
-				if (gameOver) {
-						// Mostramos Game Over
-						Application.LoadLevel ("GameOver");
-				}
-						
-		}	
+			if (isShooting == false) {
+				isShooting = true;
+			} else {
+				isShooting = false;
+			}
+			
+		}
 }

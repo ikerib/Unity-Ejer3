@@ -7,10 +7,10 @@ public class Bala : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
-				Vector3 CameraPosition;
-				CameraPosition = Camera.main.gameObject.transform.position;
+			//	Vector3 CameraPosition;
+			//	CameraPosition = Camera.main.gameObject.transform.position;
 
-				this.transform.position = CameraPosition;
+			//	this.transform.position = CameraPosition;
 				audio.Play ();
 				
 		}

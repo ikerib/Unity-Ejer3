@@ -6,7 +6,8 @@ public class CameraController : MonoBehaviour
 		public float velocidad;
 		public float maxLeft;
 		public float maxRight;
-
+		public int vidasPersonaje;
+		public int vidaEnemigo;
 		Transform myTransform;
 
 		public GameObject PrefBala;
@@ -29,7 +30,8 @@ public class CameraController : MonoBehaviour
 		{
 				if (Input.GetKeyUp (KeyCode.Space)) {
 						// instanciamos bala
-						GameObject bala = (GameObject)GameObject.Instantiate (PrefBala); 
+						Vector3 dest = new Vector3(Camera.main.camera.transform.position.x, 3.5f, 7.5f);
+						GameObject bala = (GameObject)GameObject.Instantiate (PrefBala, dest, Quaternion.identity);
 						// obtenemos su rigidbody			
 						Rigidbody balaFisicas = (Rigidbody)bala.GetComponent<Rigidbody> ();
 						// aplicamos fuerza = disparamos
@@ -47,6 +49,16 @@ public class CameraController : MonoBehaviour
 								myTransform.Translate (Vector3.right * velocidad * Time.deltaTime);			
 						}
 				}
+		}
+
+		// Función para restar vidas al personaje
+		public void DisminuirVidas ()
+		{
+			vidasPersonaje -= 1;
+			if (vidasPersonaje < 1) {
+				// terminamos el juego
+				Application.LoadLevel ("GameOver");
+			} 
 		}
 
 }
