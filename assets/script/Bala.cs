@@ -18,11 +18,12 @@ public class Bala : MonoBehaviour
 		// Cuando colisiona
 		void OnCollisionEnter (Collision col)
 		{
-				GameObject go = GameObject.Find ("HudCamera");
-				HudController HudManager = (HudController)go.GetComponent (typeof(HudController));
-				
 				// combrobamos si colisiona con el cubo		
 				if (col.gameObject.tag != "Cubo") {
+						// Actualizamos HUD		
+						GameObject go = GameObject.Find ("HudCamera");
+						HudController HudManager = (HudController)go.GetComponent (typeof(HudController));
+
 						Destroy (gameObject); 
 						HudManager.Actualizahudcubo (false);
 				}				

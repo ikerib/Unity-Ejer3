@@ -33,6 +33,9 @@ public class Cubo : MonoBehaviour
 		// Update is called once per frame
 		void FixedUpdate ()
 		{
+				//
+				// Lo típico de mover el cubo, esta vez con MoveForwards
+				//
 				if ((dest.x - 0.5f < this.transform.position.x) && (sentido == -1)) {
 						sentido = 1;
 						dest = maxRight;
@@ -42,13 +45,22 @@ public class Cubo : MonoBehaviour
 				}
 				
 				this.transform.position = Vector3.MoveTowards (transform.position, dest, Time.deltaTime * velocidad); 
+				//
+				//  Fin movimiento
+				//
+			
+
+				// Comprobamos si el Cubo está delante de la cámara, y si lo está, le disparamos.
 				RaycastHit hit;
 				Vector3 fin = new Vector3 (this.transform.position.x, 3.5f, 9f);
 				//Debug.DrawLine (this.transform.position, fin, Color.red);
 
 				if (Physics.Raycast (this.transform.position, fin, out hit)) { 
+						// Comprobamos que choca con el collider de la camara
 						if (hit.collider.tag == "MainCamera") {
+								// Doblecheck por si esta ya disparando
 								if (isShooting == false) {
+										// no hay bala en progreso, por lo que disparamos una
 										isShooting = true;
 										Vector3 desti = new Vector3 (this.transform.position.x, 0.08f, 0.8f);
 										GameObject BalaEnemigo = (GameObject)GameObject.Instantiate (PrefBalaEnemigo, desti, Quaternion.identity);  
@@ -62,20 +74,21 @@ public class Cubo : MonoBehaviour
 		// Cuando colisiona
 		void OnCollisionEnter (Collision col)
 		{
+				// Algo colisiona... pueden ser las paredes!
 				GameObject go = GameObject.Find ("HudCamera");
 				HudController HudManager = (HudController)go.GetComponent (typeof(HudController));
 				int numVidas;
 				// combrobamos si colisiona con el cubo		
 				if (col.gameObject.tag == "Bala") {
 						// Si colisiona con el cubo restamos vida
-						//GameObject.Find ("Cubo").SendMessage ("DisminuirVidas");			
-						// destruimos la bala
-						
 						numVidas = HudManager.Actualizahudcubo (true);
 						
+						// Su matamos al enemigo:
 						if (numVidas < 1) {
 								Application.LoadLevel ("victory");
 						}
+						
+						// destruimos la bala
 						Destroy (col.gameObject); 
 				}
  
@@ -84,6 +97,7 @@ public class Cubo : MonoBehaviour
 
 		public void toogleShooting ()
 		{
+				// Pequeña función para controlar que no este disparando todo el rato, solo cuando isShooting sea false.
 				if (isShooting == false) {
 						isShooting = true;
 				} else {

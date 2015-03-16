@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+				// Si pulsamos spacio, disparamos
 				if (Input.GetKeyUp (KeyCode.Space)) {
 						// instanciamos bala
 						Vector3 dest = new Vector3 (Camera.main.camera.transform.position.x, 3.5f, 7.5f);
@@ -43,12 +44,14 @@ public class CameraController : MonoBehaviour
 				}
 
 				if (Input.GetKey (KeyCode.A)) {
+						// Movemos la cámara a la izquierda
 						if (myTransform.position.x < maxLeft) {
 								myTransform.Translate (Vector3.left * velocidad * Time.deltaTime);
 						}
 				}
 
 				if (Input.GetKey (KeyCode.D)) {
+						// Movemos la cámara a la derecha
 						if (myTransform.position.x > maxRight) {
 								myTransform.Translate (Vector3.right * velocidad * Time.deltaTime);			
 						}

@@ -20,13 +20,6 @@ public class HudController : MonoBehaviour
 		private int numDisparos;
 		private int numAciertos;
 
-		// Use this for initialization
-		void Awake ()
-		{
-				numVidasPersonaje = Camera.main.camera.GetComponent<CameraController> ().vidasPersonaje;
-				
-				numVidasEnemigo = Camera.main.camera.GetComponent<CameraController> ().vidaEnemigo;
-		}
 		void Start ()
 		{
 				// Inicializamos variables con seguridad
@@ -34,8 +27,11 @@ public class HudController : MonoBehaviour
 				numDisparos = 0;
 				numAciertos = 0;
 				
-				
+				// Leemos las vidas desde el CameraController
+				numVidasPersonaje = Camera.main.camera.GetComponent<CameraController> ().vidasPersonaje;		
+				numVidasEnemigo = Camera.main.camera.GetComponent<CameraController> ().vidaEnemigo;
 
+				// Inicializamos con valores si vacio
 				if (numVidasEnemigo == 0)
 						numVidasEnemigo = 3;
 				if (numVidasPersonaje == 0)
