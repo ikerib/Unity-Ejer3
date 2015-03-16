@@ -7,12 +7,6 @@ public class Bala : MonoBehaviour
 		// Use this for initialization
 		void Start ()
 		{
-			//	Vector3 CameraPosition;
-			//	CameraPosition = Camera.main.gameObject.transform.position;
-
-			//	this.transform.position = CameraPosition;
-				audio.Play ();
-				
 		}
 	
 		// Update is called once per frame
@@ -24,15 +18,13 @@ public class Bala : MonoBehaviour
 		// Cuando colisiona
 		void OnCollisionEnter (Collision col)
 		{
+				GameObject go = GameObject.Find ("HudCamera");
+				HudController HudManager = (HudController)go.GetComponent (typeof(HudController));
+				
 				// combrobamos si colisiona con el cubo		
-				if (col.gameObject.tag == "Cubo") {
-						// Si colisiona con el cubo restamos vida
-						GameObject.Find ("Cubo").SendMessage ("DisminuirVidas");			
-						// destruimos la bala
-						Destroy (gameObject);  
-				}
-
-				// se destruye siempre con el suelo, otra bala... con cualquier colisión
-				Destroy (gameObject);  
+				if (col.gameObject.tag != "Cubo") {
+						Destroy (gameObject); 
+						HudManager.Actualizahudcubo (false);
+				}				
 		}
 }

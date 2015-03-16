@@ -23,6 +23,10 @@ public class CameraController : MonoBehaviour
 						maxLeft = 6f;
 				if (maxRight == 0)
 						maxRight = -6f;
+				if (vidaEnemigo == 0)
+						vidaEnemigo = 3;
+				if (vidasPersonaje == 0)
+						vidasPersonaje = 3;
 		}
 	
 		// Update is called once per frame
@@ -30,7 +34,7 @@ public class CameraController : MonoBehaviour
 		{
 				if (Input.GetKeyUp (KeyCode.Space)) {
 						// instanciamos bala
-						Vector3 dest = new Vector3(Camera.main.camera.transform.position.x, 3.5f, 7.5f);
+						Vector3 dest = new Vector3 (Camera.main.camera.transform.position.x, 3.5f, 7.5f);
 						GameObject bala = (GameObject)GameObject.Instantiate (PrefBala, dest, Quaternion.identity);
 						// obtenemos su rigidbody			
 						Rigidbody balaFisicas = (Rigidbody)bala.GetComponent<Rigidbody> ();
@@ -51,14 +55,5 @@ public class CameraController : MonoBehaviour
 				}
 		}
 
-		// Función para restar vidas al personaje
-		public void DisminuirVidas ()
-		{
-			vidasPersonaje -= 1;
-			if (vidasPersonaje < 1) {
-				// terminamos el juego
-				Application.LoadLevel ("GameOver");
-			} 
-		}
 
 }
