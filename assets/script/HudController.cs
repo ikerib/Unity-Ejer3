@@ -21,9 +21,11 @@ public class HudController : MonoBehaviour
 		private int numAciertos;
 
 		// Use this for initialization
-		void awake ()
+		void Awake ()
 		{
-
+				numVidasPersonaje = Camera.main.camera.GetComponent<CameraController> ().vidasPersonaje;
+				
+				numVidasEnemigo = Camera.main.camera.GetComponent<CameraController> ().vidaEnemigo;
 		}
 		void Start ()
 		{
@@ -32,6 +34,8 @@ public class HudController : MonoBehaviour
 				numDisparos = 0;
 				numAciertos = 0;
 				
+				
+
 				if (numVidasEnemigo == 0)
 						numVidasEnemigo = 3;
 				if (numVidasPersonaje == 0)
