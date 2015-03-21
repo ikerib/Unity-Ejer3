@@ -51,6 +51,11 @@ public class HudController : MonoBehaviour
 	
 		}
 
+		public void StoreScore()
+		{
+			PlayerPrefs.SetInt ("TotalScore", numPuntos);
+		}
+
 		public int Actualizahudcubo (bool acierto)
 		{
 				// Función que acualiza el Hud actualizando antes las vidas y devuelve el número de Vidas del enemigo
@@ -68,7 +73,7 @@ public class HudController : MonoBehaviour
 				Disparos.text = "Disparos: " + numDisparos.ToString ();
 				Aciertos.text = "Aciertos: " + numAciertos.ToString ();
 				VidasEnemigo.text = "Vidas Enemigo: " + numVidasEnemigo.ToString ();
-
+				StoreScore ();
 				
 
 				return numVidasEnemigo;
@@ -83,6 +88,7 @@ public class HudController : MonoBehaviour
 
 				numVidasPersonaje -= 1;
 				VidasPersonaje.text = "Mis Vidas: " + numVidasPersonaje.ToString ();
+				StoreScore ();
 
 				return numVidasPersonaje;
 		}

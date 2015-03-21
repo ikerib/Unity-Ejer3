@@ -83,6 +83,7 @@ public class Cubo : MonoBehaviour
 						// Si colisiona con el cubo restamos vida
 						numVidas = HudManager.Actualizahudcubo (true);
 						
+					velocidad = velocidad +2;
 						// Su matamos al enemigo:
 						if (numVidas < 1) {
 								Application.LoadLevel ("victory");
